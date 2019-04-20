@@ -4,7 +4,7 @@
 #
 Name     : VTK
 Version  : 8.1.2
-Release  : 2
+Release  : 3
 URL      : https://www.vtk.org/files/release/8.1/VTK-8.1.2.tar.gz
 Source0  : https://www.vtk.org/files/release/8.1/VTK-8.1.2.tar.gz
 Summary  : Python 2 and 3 compatibility utilities
