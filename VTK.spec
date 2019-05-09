@@ -4,7 +4,7 @@
 #
 Name     : VTK
 Version  : 8.2.0
-Release  : 4
+Release  : 5
 URL      : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Source0  : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Summary  : No detailed summary available
