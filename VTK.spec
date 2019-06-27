@@ -4,12 +4,12 @@
 #
 Name     : VTK
 Version  : 8.2.0
-Release  : 5
+Release  : 6
 URL      : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Source0  : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : Apache-2.0 BSD-2-Clause BSD-3-Clause BSD-3-Clause-Attribution BSL-1.0 GL2PS GPL-2.0 IJG Libpng MIT MPL-2.0 MPL-2.0-no-copyleft-exception NetCDF Zlib libtiff
+License  : Apache-2.0 BSD-2-Clause BSD-3-Clause BSD-3-Clause-Attribution BSD-4-Clause-UC BSL-1.0 GL2PS GPL-2.0 IJG Libpng MIT MPL-2.0 MPL-2.0-no-copyleft-exception NetCDF Zlib libtiff
 Requires: VTK-lib = %{version}-%{release}
 Requires: VTK-license = %{version}-%{release}
 BuildRequires : boost-dev
@@ -17,6 +17,7 @@ BuildRequires : buildreq-cmake
 BuildRequires : bzip2-dev
 BuildRequires : cmake
 BuildRequires : doxygen
+BuildRequires : eigen-dev
 BuildRequires : extra-cmake-modules pkgconfig(egl)
 BuildRequires : freeglut-dev
 BuildRequires : gdal-dev
@@ -38,6 +39,7 @@ BuildRequires : postgresql-dev
 BuildRequires : python3
 BuildRequires : python3-dev
 BuildRequires : qtbase-dev mesa-dev
+BuildRequires : sqlite-autoconf-dev
 BuildRequires : swig
 BuildRequires : tcl-dev tk-dev
 BuildRequires : texlive
@@ -97,16 +99,20 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1555965797
+export SOURCE_DATE_EPOCH=1561678846
 mkdir -p clr-build
 pushd clr-build
-export LDFLAGS="${LDFLAGS} -fno-lto"
-%cmake ..
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
+%cmake .. -DVTK_USE_SYSTEM_SQLITE:BOOL=ON
 make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1555965797
+export SOURCE_DATE_EPOCH=1561678846
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/VTK
 cp Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/Copyright.txt
@@ -124,6 +130,7 @@ cp ThirdParty/freetype/vtkfreetype/docs/LICENSE.TXT %{buildroot}/usr/share/packa
 cp ThirdParty/gl2ps/vtkgl2ps/COPYING.GL2PS %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_gl2ps_vtkgl2ps_COPYING.GL2PS
 cp ThirdParty/gl2ps/vtkgl2ps/COPYING.LGPL %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_gl2ps_vtkgl2ps_COPYING.LGPL
 cp ThirdParty/glew/vtkglew/LICENSE.txt %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_glew_vtkglew_LICENSE.txt
+cp ThirdParty/hdf5/vtkhdf5/COPYING %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_hdf5_vtkhdf5_COPYING
 cp ThirdParty/hdf5/vtkhdf5/COPYING_LBNL_HDF5 %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_hdf5_vtkhdf5_COPYING_LBNL_HDF5
 cp ThirdParty/jpeg/vtkjpeg/LICENSE.md %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_jpeg_vtkjpeg_LICENSE.md
 cp ThirdParty/jsoncpp/vtkjsoncpp/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_jsoncpp_vtkjsoncpp_LICENSE
@@ -3210,9 +3217,6 @@ popd
 /usr/include/vtk-8.2/vtkpugixml/src/pugiconfig.hpp
 /usr/include/vtk-8.2/vtkpugixml/src/pugixml.hpp
 /usr/include/vtk-8.2/vtkpugixml/src/vtk_pugixml_mangle.h
-/usr/include/vtk-8.2/vtksqlite/sqlite3.h
-/usr/include/vtk-8.2/vtksqlite/vtk_sqlite_mangle.h
-/usr/include/vtk-8.2/vtksqlite/vtksqlite_export.h
 /usr/include/vtk-8.2/vtksys/Base64.h
 /usr/include/vtk-8.2/vtksys/CommandLineArguments.hxx
 /usr/include/vtk-8.2/vtksys/Configure.h
@@ -3520,7 +3524,6 @@ popd
 /usr/lib64/libvtkpng-8.2.so
 /usr/lib64/libvtkproj-8.2.so
 /usr/lib64/libvtkpugixml-8.2.so
-/usr/lib64/libvtksqlite-8.2.so
 /usr/lib64/libvtksys-8.2.so
 /usr/lib64/libvtktheora-8.2.so
 /usr/lib64/libvtktiff-8.2.so
@@ -3652,7 +3655,6 @@ popd
 /usr/lib64/libvtkpng-8.2.so.1
 /usr/lib64/libvtkproj-8.2.so.1
 /usr/lib64/libvtkpugixml-8.2.so.1
-/usr/lib64/libvtksqlite-8.2.so.1
 /usr/lib64/libvtksys-8.2.so.1
 /usr/lib64/libvtktheora-8.2.so.1
 /usr/lib64/libvtktiff-8.2.so.1
@@ -3676,6 +3678,7 @@ popd
 /usr/share/package-licenses/VTK/ThirdParty_gl2ps_vtkgl2ps_COPYING.GL2PS
 /usr/share/package-licenses/VTK/ThirdParty_gl2ps_vtkgl2ps_COPYING.LGPL
 /usr/share/package-licenses/VTK/ThirdParty_glew_vtkglew_LICENSE.txt
+/usr/share/package-licenses/VTK/ThirdParty_hdf5_vtkhdf5_COPYING
 /usr/share/package-licenses/VTK/ThirdParty_hdf5_vtkhdf5_COPYING_LBNL_HDF5
 /usr/share/package-licenses/VTK/ThirdParty_jpeg_vtkjpeg_LICENSE.md
 /usr/share/package-licenses/VTK/ThirdParty_jsoncpp_vtkjsoncpp_LICENSE
