@@ -1,3 +1,16 @@
 # This file contains additional build requirements that did not get
 # picked up automatically. One name per line, no whitespace.
+double-conversion-dev
+eigen-dev
+freetype-dev
+hdf5-dev
+jsoncpp-dev
+libogg-dev
+libpng-dev
+libtheora-dev
+lz4-dev
+netcdf-dev
+pugixml-dev
 sqlite-autoconf-dev
+tiff-dev
+zlib-dev

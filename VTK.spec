@@ -4,7 +4,7 @@
 #
 Name     : VTK
 Version  : 8.2.0
-Release  : 6
+Release  : 7
 URL      : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Source0  : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Summary  : No detailed summary available
@@ -16,26 +16,34 @@ BuildRequires : boost-dev
 BuildRequires : buildreq-cmake
 BuildRequires : bzip2-dev
 BuildRequires : cmake
+BuildRequires : double-conversion-dev
 BuildRequires : doxygen
 BuildRequires : eigen-dev
 BuildRequires : extra-cmake-modules pkgconfig(egl)
 BuildRequires : freeglut-dev
+BuildRequires : freetype-dev
 BuildRequires : gdal-dev
 BuildRequires : git
 BuildRequires : glew-dev
 BuildRequires : glibc-dev
 BuildRequires : hdf5-dev
+BuildRequires : jsoncpp-dev
 BuildRequires : libX11-dev libICE-dev libSM-dev libXau-dev libXcomposite-dev libXcursor-dev libXdamage-dev libXdmcp-dev libXext-dev libXfixes-dev libXft-dev libXi-dev libXinerama-dev libXi-dev libXmu-dev libXpm-dev libXrandr-dev libXrender-dev libXres-dev libXScrnSaver-dev libXt-dev libXtst-dev libXv-dev libXxf86misc-dev libXxf86vm-dev
 BuildRequires : libjpeg-turbo-dev
+BuildRequires : libogg-dev
 BuildRequires : libpng-dev
+BuildRequires : libtheora-dev
 BuildRequires : libxml2-dev
+BuildRequires : lz4-dev
 BuildRequires : mesa-dev
+BuildRequires : netcdf-dev
 BuildRequires : openjdk9
 BuildRequires : openjdk9-dev
 BuildRequires : openmpi-dev
 BuildRequires : perl
 BuildRequires : pkg-config
 BuildRequires : postgresql-dev
+BuildRequires : pugixml-dev
 BuildRequires : python3
 BuildRequires : python3-dev
 BuildRequires : qtbase-dev mesa-dev
@@ -99,7 +107,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1561678846
+export SOURCE_DATE_EPOCH=1561696798
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -107,12 +115,12 @@ export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
 export FFLAGS="$CFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
-%cmake .. -DVTK_USE_SYSTEM_SQLITE:BOOL=ON
+%cmake .. -DVTK_USE_SYSTEM_LIBRARIES=ON -DVTK_USE_SYSTEM_GL2PS:BOOL=OFF -DVTK_USE_SYSTEM_LIBHARU:BOOL=OFF -DVTK_USE_SYSTEM_LIBPROJ:BOOL=OFF
 make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1561678846
+export SOURCE_DATE_EPOCH=1561696798
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/VTK
 cp Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/Copyright.txt
@@ -2592,475 +2600,13 @@ popd
 /usr/include/vtk-8.2/vtk_tiff.h
 /usr/include/vtk-8.2/vtk_utf8.h
 /usr/include/vtk-8.2/vtk_zlib.h
-/usr/include/vtk-8.2/vtkdoubleconversion/double-conversion/bignum-dtoa.h
-/usr/include/vtk-8.2/vtkdoubleconversion/double-conversion/bignum.h
-/usr/include/vtk-8.2/vtkdoubleconversion/double-conversion/cached-powers.h
-/usr/include/vtk-8.2/vtkdoubleconversion/double-conversion/diy-fp.h
-/usr/include/vtk-8.2/vtkdoubleconversion/double-conversion/double-conversion.h
-/usr/include/vtk-8.2/vtkdoubleconversion/double-conversion/fast-dtoa.h
-/usr/include/vtk-8.2/vtkdoubleconversion/double-conversion/fixed-dtoa.h
-/usr/include/vtk-8.2/vtkdoubleconversion/double-conversion/ieee.h
-/usr/include/vtk-8.2/vtkdoubleconversion/double-conversion/strtod.h
-/usr/include/vtk-8.2/vtkdoubleconversion/double-conversion/utils.h
-/usr/include/vtk-8.2/vtkdoubleconversion/double-conversion/vtkdoubleconversion_export.h
-/usr/include/vtk-8.2/vtkeigen/eigen/Cholesky
-/usr/include/vtk-8.2/vtkeigen/eigen/CholmodSupport
-/usr/include/vtk-8.2/vtkeigen/eigen/Core
-/usr/include/vtk-8.2/vtkeigen/eigen/Dense
-/usr/include/vtk-8.2/vtkeigen/eigen/Eigen
-/usr/include/vtk-8.2/vtkeigen/eigen/Eigenvalues
-/usr/include/vtk-8.2/vtkeigen/eigen/Geometry
-/usr/include/vtk-8.2/vtkeigen/eigen/Householder
-/usr/include/vtk-8.2/vtkeigen/eigen/IterativeLinearSolvers
-/usr/include/vtk-8.2/vtkeigen/eigen/Jacobi
-/usr/include/vtk-8.2/vtkeigen/eigen/LU
-/usr/include/vtk-8.2/vtkeigen/eigen/MetisSupport
-/usr/include/vtk-8.2/vtkeigen/eigen/OrderingMethods
-/usr/include/vtk-8.2/vtkeigen/eigen/PaStiXSupport
-/usr/include/vtk-8.2/vtkeigen/eigen/PardisoSupport
-/usr/include/vtk-8.2/vtkeigen/eigen/QR
-/usr/include/vtk-8.2/vtkeigen/eigen/QtAlignedMalloc
-/usr/include/vtk-8.2/vtkeigen/eigen/SPQRSupport
-/usr/include/vtk-8.2/vtkeigen/eigen/SVD
-/usr/include/vtk-8.2/vtkeigen/eigen/Sparse
-/usr/include/vtk-8.2/vtkeigen/eigen/SparseCholesky
-/usr/include/vtk-8.2/vtkeigen/eigen/SparseCore
-/usr/include/vtk-8.2/vtkeigen/eigen/SparseLU
-/usr/include/vtk-8.2/vtkeigen/eigen/SparseQR
-/usr/include/vtk-8.2/vtkeigen/eigen/StdDeque
-/usr/include/vtk-8.2/vtkeigen/eigen/StdList
-/usr/include/vtk-8.2/vtkeigen/eigen/StdVector
-/usr/include/vtk-8.2/vtkeigen/eigen/SuperLUSupport
-/usr/include/vtk-8.2/vtkeigen/eigen/UmfPackSupport
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Cholesky/LDLT.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Cholesky/LLT.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Cholesky/LLT_LAPACKE.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/CholmodSupport/CholmodSupport.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Array.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/ArrayBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/ArrayWrapper.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Assign.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/AssignEvaluator.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Assign_MKL.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/BandMatrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Block.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/BooleanRedux.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/CommaInitializer.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/ConditionEstimator.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/CoreEvaluators.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/CoreIterators.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/CwiseBinaryOp.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/CwiseNullaryOp.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/CwiseTernaryOp.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/CwiseUnaryOp.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/CwiseUnaryView.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/DenseBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/DenseCoeffsBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/DenseStorage.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Diagonal.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/DiagonalMatrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/DiagonalProduct.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Dot.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/EigenBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/ForceAlignedAccess.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Fuzzy.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/GeneralProduct.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/GenericPacketMath.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/GlobalFunctions.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/IO.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Inverse.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Map.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/MapBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/MathFunctions.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/MathFunctionsImpl.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Matrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/MatrixBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/NestByValue.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/NoAlias.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/NumTraits.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/PermutationMatrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/PlainObjectBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Product.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/ProductEvaluators.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Random.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Redux.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Ref.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Replicate.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/ReturnByValue.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Reverse.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Select.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/SelfAdjointView.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/SelfCwiseBinaryOp.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Solve.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/SolveTriangular.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/SolverBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/StableNorm.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Stride.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Swap.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Transpose.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Transpositions.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/TriangularMatrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/VectorBlock.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/VectorwiseOp.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/Visitor.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/AVX/Complex.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/AVX/MathFunctions.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/AVX/PacketMath.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/AVX/TypeCasting.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/AVX512/MathFunctions.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/AVX512/PacketMath.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/AltiVec/Complex.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/AltiVec/MathFunctions.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/AltiVec/PacketMath.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/CUDA/Complex.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/CUDA/Half.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/CUDA/MathFunctions.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/CUDA/PacketMath.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/CUDA/PacketMathHalf.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/CUDA/TypeCasting.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/Default/Settings.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/NEON/Complex.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/NEON/MathFunctions.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/NEON/PacketMath.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/SSE/Complex.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/SSE/MathFunctions.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/SSE/PacketMath.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/SSE/TypeCasting.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/ZVector/Complex.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/ZVector/MathFunctions.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/arch/ZVector/PacketMath.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/functors/AssignmentFunctors.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/functors/BinaryFunctors.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/functors/NullaryFunctors.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/functors/StlFunctors.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/functors/TernaryFunctors.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/functors/UnaryFunctors.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/GeneralBlockPanelKernel.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/GeneralMatrixMatrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/GeneralMatrixMatrixTriangular_BLAS.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/GeneralMatrixMatrix_BLAS.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/GeneralMatrixVector.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/GeneralMatrixVector_BLAS.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/Parallelizer.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/SelfadjointMatrixMatrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/SelfadjointMatrixMatrix_BLAS.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/SelfadjointMatrixVector.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/SelfadjointMatrixVector_BLAS.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/SelfadjointProduct.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/SelfadjointRank2Update.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/TriangularMatrixMatrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/TriangularMatrixMatrix_BLAS.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/TriangularMatrixVector.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/TriangularMatrixVector_BLAS.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/TriangularSolverMatrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/TriangularSolverMatrix_BLAS.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/products/TriangularSolverVector.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/BlasUtil.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/Constants.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/DisableStupidWarnings.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/ForwardDeclarations.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/MKL_support.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/Macros.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/Memory.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/Meta.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/NonMPL2.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/ReenableStupidWarnings.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/StaticAssert.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Core/util/XprHelper.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/ComplexEigenSolver.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/ComplexSchur.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/EigenSolver.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/GeneralizedEigenSolver.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/HessenbergDecomposition.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/MatrixBaseEigenvalues.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/RealQZ.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/RealSchur.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/RealSchur_LAPACKE.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/SelfAdjointEigenSolver.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Eigenvalues/Tridiagonalization.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/AlignedBox.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/AngleAxis.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/EulerAngles.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/Homogeneous.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/Hyperplane.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/OrthoMethods.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/ParametrizedLine.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/Quaternion.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/Rotation2D.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/RotationBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/Scaling.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/Transform.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/Translation.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/Umeyama.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Geometry/arch/Geometry_SSE.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Householder/BlockHouseholder.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Householder/Householder.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Householder/HouseholderSequence.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/IterativeLinearSolvers/BiCGSTAB.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/IterativeLinearSolvers/ConjugateGradient.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/IterativeLinearSolvers/IncompleteCholesky.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/IterativeLinearSolvers/IncompleteLUT.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/IterativeLinearSolvers/LeastSquareConjugateGradient.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/IterativeLinearSolvers/SolveWithGuess.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/Jacobi/Jacobi.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/LU/Determinant.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/LU/FullPivLU.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/LU/InverseImpl.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/LU/PartialPivLU.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/LU/PartialPivLU_LAPACKE.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/LU/arch/Inverse_SSE.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/MetisSupport/MetisSupport.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/OrderingMethods/Amd.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/OrderingMethods/Eigen_Colamd.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/OrderingMethods/Ordering.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/PaStiXSupport/PaStiXSupport.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/PardisoSupport/PardisoSupport.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/QR/ColPivHouseholderQR.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/QR/ColPivHouseholderQR_LAPACKE.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/QR/CompleteOrthogonalDecomposition.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/QR/FullPivHouseholderQR.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/QR/HouseholderQR.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/QR/HouseholderQR_LAPACKE.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SPQRSupport/SuiteSparseQRSupport.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SVD/BDCSVD.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SVD/JacobiSVD.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SVD/JacobiSVD_LAPACKE.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SVD/SVDBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SVD/UpperBidiagonalization.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCholesky/SimplicialCholesky.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCholesky/SimplicialCholesky_impl.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/AmbiVector.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/CompressedStorage.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/ConservativeSparseSparseProduct.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/MappedSparseMatrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseAssign.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseBlock.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseColEtree.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseCompressedBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseCwiseBinaryOp.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseCwiseUnaryOp.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseDenseProduct.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseDiagonalProduct.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseDot.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseFuzzy.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseMap.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseMatrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseMatrixBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparsePermutation.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseProduct.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseRedux.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseRef.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseSelfAdjointView.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseSolverBase.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseSparseProductWithPruning.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseTranspose.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseTriangularView.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseUtil.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseVector.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/SparseView.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseCore/TriangularSolver.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLUImpl.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_Memory.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_Structs.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_SupernodalMatrix.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_Utils.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_column_bmod.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_column_dfs.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_copy_to_ucol.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_gemm_kernel.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_heap_relax_snode.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_kernel_bmod.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_panel_bmod.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_panel_dfs.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_pivotL.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_pruneL.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseLU/SparseLU_relax_snode.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SparseQR/SparseQR.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/StlSupport/StdDeque.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/StlSupport/StdList.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/StlSupport/StdVector.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/StlSupport/details.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/SuperLUSupport/SuperLUSupport.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/UmfPackSupport/UmfPackSupport.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/misc/Image.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/misc/Kernel.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/misc/RealSvd2x2.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/misc/blas.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/misc/lapack.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/misc/lapacke.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/misc/lapacke_mangling.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/plugins/ArrayCwiseBinaryOps.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/plugins/ArrayCwiseUnaryOps.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/plugins/BlockMethods.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/plugins/CommonCwiseBinaryOps.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/plugins/CommonCwiseUnaryOps.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/plugins/MatrixCwiseBinaryOps.h
-/usr/include/vtk-8.2/vtkeigen/eigen/src/plugins/MatrixCwiseUnaryOps.h
 /usr/include/vtk-8.2/vtkexodusII/include/exodusII.h
 /usr/include/vtk-8.2/vtkexodusII/include/exodusII_cfg.h
 /usr/include/vtk-8.2/vtkexodusII/include/exodusII_int.h
 /usr/include/vtk-8.2/vtkexodusII/include/exodus_config.h
 /usr/include/vtk-8.2/vtkexodusII/include/vtk_exodusII_mangle.h
-/usr/include/vtk-8.2/vtkexpat/lib/expat.h
-/usr/include/vtk-8.2/vtkexpat/lib/expat_external.h
-/usr/include/vtk-8.2/vtkexpat/lib/vtk_expat_mangle.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/config/ftconfig.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/config/ftheader.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/config/ftmodule.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/config/ftoption.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/config/ftstdlib.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/freetype.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftadvanc.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftbbox.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftbdf.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftbitmap.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftbzip2.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftcache.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftchapters.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftcid.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/fterrdef.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/fterrors.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftgasp.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftglyph.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftgxval.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftgzip.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftimage.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftincrem.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftlcdfil.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftlist.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftlzw.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftmac.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftmm.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftmodapi.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftmoderr.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftotval.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftoutln.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftpfr.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftrender.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftsizes.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftsnames.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftstroke.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftsynth.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftsystem.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/fttrigon.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/fttypes.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftwinfnt.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ftxf86.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/t1tables.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ttnameid.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/tttables.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/tttags.h
-/usr/include/vtk-8.2/vtkfreetype/include/freetype/ttunpat.h
-/usr/include/vtk-8.2/vtkfreetype/include/ft2build.h
-/usr/include/vtk-8.2/vtkfreetype/include/vtkFreeTypeConfig.h
-/usr/include/vtk-8.2/vtkfreetype/include/vtk_freetype_mangle.h
-/usr/include/vtk-8.2/vtkfreetype/include/vtk_ftmodule.h
 /usr/include/vtk-8.2/vtkgl2ps/gl2ps.h
 /usr/include/vtk-8.2/vtkgl2ps/vtk_gl2ps_mangle.h
-/usr/include/vtk-8.2/vtkglew/include/GL/glew.h
-/usr/include/vtk-8.2/vtkglew/include/GL/glxew.h
-/usr/include/vtk-8.2/vtkglew/include/GL/vtk_glew_mangle.h
-/usr/include/vtk-8.2/vtkglew/include/GL/wglew.h
-/usr/include/vtk-8.2/vtkhdf5/H5pubconf.h
-/usr/include/vtk-8.2/vtkhdf5/hl/src/H5DOpublic.h
-/usr/include/vtk-8.2/vtkhdf5/hl/src/H5DSpublic.h
-/usr/include/vtk-8.2/vtkhdf5/hl/src/H5IMpublic.h
-/usr/include/vtk-8.2/vtkhdf5/hl/src/H5LDpublic.h
-/usr/include/vtk-8.2/vtkhdf5/hl/src/H5LTparse.h
-/usr/include/vtk-8.2/vtkhdf5/hl/src/H5LTpublic.h
-/usr/include/vtk-8.2/vtkhdf5/hl/src/H5PTpublic.h
-/usr/include/vtk-8.2/vtkhdf5/hl/src/H5TBpublic.h
-/usr/include/vtk-8.2/vtkhdf5/hl/src/hdf5_hl.h
-/usr/include/vtk-8.2/vtkhdf5/hl/src/vtk_hdf5_hl_mangle.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5ACpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5ACpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Apkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Apublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5B2pkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5B2public.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Bpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Bpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Cpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Cpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Dpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Dpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5EApkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Edefin.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Einit.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Epkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Epubgen.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Epublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Eterm.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FApkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDcore.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDdirect.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDfamily.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDlog.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDmpi.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDmpio.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDmulti.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDsec2.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDstdio.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FDwindows.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FSpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5FSpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Fpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Fpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Gpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Gpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5HFpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5HFpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5HGpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5HGpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5HLpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5HLpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Ipkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Ipublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Lpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Lpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5MMpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5MPpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Opkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Opublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Oshared.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5PBpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5PLextern.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5PLpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5PLpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Ppkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Ppublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Rpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Rpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5SMpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Spkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Spublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Tpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Tpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Zpkg.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5Zpublic.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5api_adpt.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5overflow.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5public.h
-/usr/include/vtk-8.2/vtkhdf5/src/H5version.h
-/usr/include/vtk-8.2/vtkhdf5/src/hdf5.h
-/usr/include/vtk-8.2/vtkhdf5/src/vtk_hdf5_mangle.h
-/usr/include/vtk-8.2/vtkjpeg/jconfig.h
-/usr/include/vtk-8.2/vtkjpeg/jerror.h
-/usr/include/vtk-8.2/vtkjpeg/jmorecfg.h
-/usr/include/vtk-8.2/vtkjpeg/jpeglib.h
-/usr/include/vtk-8.2/vtkjpeg/vtk_jpeg_mangle.h
-/usr/include/vtk-8.2/vtkjsoncpp/json/json-forwards.h
-/usr/include/vtk-8.2/vtkjsoncpp/json/json.h
-/usr/include/vtk-8.2/vtkjsoncpp/json/vtkjsoncpp_config.h
 /usr/include/vtk-8.2/vtkkwiml/abi.h
 /usr/include/vtk-8.2/vtkkwiml/int.h
 /usr/include/vtk-8.2/vtklibharu/include/hpdf.h
@@ -3101,74 +2647,6 @@ popd
 /usr/include/vtk-8.2/vtklibproj/src/projects.h
 /usr/include/vtk-8.2/vtklibproj/src/vtk_libproj_mangle.h
 /usr/include/vtk-8.2/vtklibproj/src/vtklibproj_export.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/DOCBparser.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/HTMLparser.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/HTMLtree.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/SAX.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/SAX2.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/c14n.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/catalog.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/chvalid.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/debugXML.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/dict.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/encoding.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/entities.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/globals.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/hash.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/list.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/nanoftp.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/nanohttp.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/parser.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/parserInternals.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/pattern.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/relaxng.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/schemasInternals.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/schematron.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/threads.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/tree.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/uri.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/valid.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/vtk_libxml2_mangle.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xinclude.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xlink.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlIO.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlautomata.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlerror.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlexports.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlmemory.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlmodule.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlreader.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlregexp.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlsave.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlschemas.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlschemastypes.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlstring.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlunicode.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlversion.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xmlwriter.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xpath.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xpathInternals.h
-/usr/include/vtk-8.2/vtklibxml2/libxml/xpointer.h
-/usr/include/vtk-8.2/vtklz4/lib/lz4.h
-/usr/include/vtk-8.2/vtklz4/lib/lz4frame.h
-/usr/include/vtk-8.2/vtklz4/lib/lz4frame_static.h
-/usr/include/vtk-8.2/vtklz4/lib/lz4hc.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/base.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/bcj.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/block.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/check.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/container.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/delta.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/filter.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/hardware.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/index.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/index_hash.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/lzma12.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/stream_flags.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/version.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/lzma/vli.h
-/usr/include/vtk-8.2/vtklzma/src/liblzma/api/vtk_lzma_mangle.h
 /usr/include/vtk-8.2/vtkmetaio/localMetaConfiguration.h
 /usr/include/vtk-8.2/vtkmetaio/metaArray.h
 /usr/include/vtk-8.2/vtkmetaio/metaArrow.h
@@ -3200,20 +2678,6 @@ popd
 /usr/include/vtk-8.2/vtkmetaio/metaTypes.h
 /usr/include/vtk-8.2/vtkmetaio/metaUtils.h
 /usr/include/vtk-8.2/vtkmetaio/metaVesselTube.h
-/usr/include/vtk-8.2/vtknetcdf/include/netcdf.h
-/usr/include/vtk-8.2/vtknetcdf/include/netcdf_meta.h
-/usr/include/vtk-8.2/vtknetcdf/include/vtk_netcdf_config.h
-/usr/include/vtk-8.2/vtknetcdf/include/vtk_netcdf_mangle.h
-/usr/include/vtk-8.2/vtkogg/include/ogg/config_types.h
-/usr/include/vtk-8.2/vtkogg/include/ogg/ogg.h
-/usr/include/vtk-8.2/vtkogg/include/ogg/os_types.h
-/usr/include/vtk-8.2/vtkogg/include/ogg/vtk_ogg_mangle.h
-/usr/include/vtk-8.2/vtkogg/include/ogg/vtkogg_export.h
-/usr/include/vtk-8.2/vtkpng/png.h
-/usr/include/vtk-8.2/vtkpng/pngconf.h
-/usr/include/vtk-8.2/vtkpng/pnglibconf.h
-/usr/include/vtk-8.2/vtkpng/vtk_png_mangle.h
-/usr/include/vtk-8.2/vtkpng/vtkpngConfig.h
 /usr/include/vtk-8.2/vtkpugixml/src/pugiconfig.hpp
 /usr/include/vtk-8.2/vtkpugixml/src/pugixml.hpp
 /usr/include/vtk-8.2/vtkpugixml/src/vtk_pugixml_mangle.h
@@ -3239,19 +2703,7 @@ popd
 /usr/include/vtk-8.2/vtksys/hash_map.hxx
 /usr/include/vtk-8.2/vtksys/hash_set.hxx
 /usr/include/vtk-8.2/vtksys/hashtable.hxx
-/usr/include/vtk-8.2/vtktheora/include/theora/codec.h
-/usr/include/vtk-8.2/vtktheora/include/theora/theora.h
-/usr/include/vtk-8.2/vtktheora/include/theora/theoradec.h
-/usr/include/vtk-8.2/vtktheora/include/theora/theoraenc.h
-/usr/include/vtk-8.2/vtktheora/include/theora/vtk_theora_mangle.h
-/usr/include/vtk-8.2/vtktheora/include/theora/vtktheora_export.h
-/usr/include/vtk-8.2/vtktiff/libtiff/tiff.h
-/usr/include/vtk-8.2/vtktiff/libtiff/tiffio.h
-/usr/include/vtk-8.2/vtktiff/libtiff/tiffvers.h
-/usr/include/vtk-8.2/vtktiff/libtiff/vtk_tiff_mangle.h
 /usr/include/vtk-8.2/vtkverdict/verdict.h
-/usr/include/vtk-8.2/vtkzlib/zconf.h
-/usr/include/vtk-8.2/vtkzlib/zlib.h
 /usr/lib64/cmake/vtk-8.2/Modules/vtkChartsCore.cmake
 /usr/lib64/cmake/vtk-8.2/Modules/vtkCommonColor.cmake
 /usr/lib64/cmake/vtk-8.2/Modules/vtkCommonComputationalGeometry.cmake
@@ -3488,7 +2940,6 @@ popd
 /usr/lib64/libvtkInteractionImage-8.2.so
 /usr/lib64/libvtkInteractionStyle-8.2.so
 /usr/lib64/libvtkInteractionWidgets-8.2.so
-/usr/lib64/libvtkNetCDF-8.2.so
 /usr/lib64/libvtkParallelCore-8.2.so
 /usr/lib64/libvtkRenderingAnnotation-8.2.so
 /usr/lib64/libvtkRenderingContext2D-8.2.so
@@ -3505,30 +2956,14 @@ popd
 /usr/lib64/libvtkViewsContext2D-8.2.so
 /usr/lib64/libvtkViewsCore-8.2.so
 /usr/lib64/libvtkViewsInfovis-8.2.so
-/usr/lib64/libvtkdoubleconversion-8.2.so
 /usr/lib64/libvtkexodusII-8.2.so
-/usr/lib64/libvtkexpat-8.2.so
-/usr/lib64/libvtkfreetype-8.2.so
 /usr/lib64/libvtkgl2ps-8.2.so
-/usr/lib64/libvtkglew-8.2.so
-/usr/lib64/libvtkhdf5-8.2.so
-/usr/lib64/libvtkhdf5_hl-8.2.so
-/usr/lib64/libvtkjpeg-8.2.so
-/usr/lib64/libvtkjsoncpp-8.2.so
 /usr/lib64/libvtklibharu-8.2.so
-/usr/lib64/libvtklibxml2-8.2.so
-/usr/lib64/libvtklz4-8.2.so
-/usr/lib64/libvtklzma-8.2.so
 /usr/lib64/libvtkmetaio-8.2.so
-/usr/lib64/libvtkogg-8.2.so
-/usr/lib64/libvtkpng-8.2.so
 /usr/lib64/libvtkproj-8.2.so
 /usr/lib64/libvtkpugixml-8.2.so
 /usr/lib64/libvtksys-8.2.so
-/usr/lib64/libvtktheora-8.2.so
-/usr/lib64/libvtktiff-8.2.so
 /usr/lib64/libvtkverdict-8.2.so
-/usr/lib64/libvtkzlib-8.2.so
 
 %files doc
 %defattr(0644,root,root,0755)
@@ -3619,7 +3054,6 @@ popd
 /usr/lib64/libvtkInteractionImage-8.2.so.1
 /usr/lib64/libvtkInteractionStyle-8.2.so.1
 /usr/lib64/libvtkInteractionWidgets-8.2.so.1
-/usr/lib64/libvtkNetCDF-8.2.so.1
 /usr/lib64/libvtkParallelCore-8.2.so.1
 /usr/lib64/libvtkRenderingAnnotation-8.2.so.1
 /usr/lib64/libvtkRenderingContext2D-8.2.so.1
@@ -3636,30 +3070,14 @@ popd
 /usr/lib64/libvtkViewsContext2D-8.2.so.1
 /usr/lib64/libvtkViewsCore-8.2.so.1
 /usr/lib64/libvtkViewsInfovis-8.2.so.1
-/usr/lib64/libvtkdoubleconversion-8.2.so.1
 /usr/lib64/libvtkexodusII-8.2.so.1
-/usr/lib64/libvtkexpat-8.2.so.1
-/usr/lib64/libvtkfreetype-8.2.so.1
 /usr/lib64/libvtkgl2ps-8.2.so.1
-/usr/lib64/libvtkglew-8.2.so.1
-/usr/lib64/libvtkhdf5-8.2.so.1
-/usr/lib64/libvtkhdf5_hl-8.2.so.1
-/usr/lib64/libvtkjpeg-8.2.so.1
-/usr/lib64/libvtkjsoncpp-8.2.so.1
 /usr/lib64/libvtklibharu-8.2.so.1
-/usr/lib64/libvtklibxml2-8.2.so.1
-/usr/lib64/libvtklz4-8.2.so.1
-/usr/lib64/libvtklzma-8.2.so.1
 /usr/lib64/libvtkmetaio-8.2.so.1
-/usr/lib64/libvtkogg-8.2.so.1
-/usr/lib64/libvtkpng-8.2.so.1
 /usr/lib64/libvtkproj-8.2.so.1
 /usr/lib64/libvtkpugixml-8.2.so.1
 /usr/lib64/libvtksys-8.2.so.1
-/usr/lib64/libvtktheora-8.2.so.1
-/usr/lib64/libvtktiff-8.2.so.1
 /usr/lib64/libvtkverdict-8.2.so.1
-/usr/lib64/libvtkzlib-8.2.so.1
 
 %files license
 %defattr(0644,root,root,0755)
