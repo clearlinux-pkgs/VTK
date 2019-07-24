@@ -4,7 +4,7 @@
 #
 Name     : VTK
 Version  : 8.2.0
-Release  : 7
+Release  : 8
 URL      : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Source0  : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Summary  : No detailed summary available
@@ -37,8 +37,8 @@ BuildRequires : libxml2-dev
 BuildRequires : lz4-dev
 BuildRequires : mesa-dev
 BuildRequires : netcdf-dev
-BuildRequires : openjdk9
-BuildRequires : openjdk9-dev
+BuildRequires : openjdk11
+BuildRequires : openjdk11-dev
 BuildRequires : openmpi-dev
 BuildRequires : perl
 BuildRequires : pkg-config
@@ -106,8 +106,8 @@ license components for the VTK package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1561696798
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1564012136
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -120,7 +120,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1561696798
+export SOURCE_DATE_EPOCH=1564012136
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/VTK
 cp Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/Copyright.txt
