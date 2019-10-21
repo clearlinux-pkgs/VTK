@@ -4,7 +4,7 @@
 #
 Name     : VTK
 Version  : 8.2.0
-Release  : 8
+Release  : 9
 URL      : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Source0  : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Summary  : No detailed summary available
@@ -37,8 +37,6 @@ BuildRequires : libxml2-dev
 BuildRequires : lz4-dev
 BuildRequires : mesa-dev
 BuildRequires : netcdf-dev
-BuildRequires : openjdk11
-BuildRequires : openjdk11-dev
 BuildRequires : openmpi-dev
 BuildRequires : perl
 BuildRequires : pkg-config
@@ -52,6 +50,7 @@ BuildRequires : swig
 BuildRequires : tcl-dev tk-dev
 BuildRequires : texlive
 BuildRequires : tiff-dev
+BuildRequires : util-linux
 BuildRequires : xz-dev
 BuildRequires : zlib-dev
 
@@ -107,7 +106,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1564012136
+export SOURCE_DATE_EPOCH=1571692419
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -116,58 +115,58 @@ export FCFLAGS="$CFLAGS -fno-lto "
 export FFLAGS="$CFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %cmake .. -DVTK_USE_SYSTEM_LIBRARIES=ON -DVTK_USE_SYSTEM_GL2PS:BOOL=OFF -DVTK_USE_SYSTEM_LIBHARU:BOOL=OFF -DVTK_USE_SYSTEM_LIBPROJ:BOOL=OFF
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1564012136
+export SOURCE_DATE_EPOCH=1571692419
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/VTK
-cp Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/Copyright.txt
-cp Domains/Chemistry/COPYING %{buildroot}/usr/share/package-licenses/VTK/Domains_Chemistry_COPYING
-cp ThirdParty/diy2/vtkdiy2/LICENSE.txt %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_diy2_vtkdiy2_LICENSE.txt
-cp ThirdParty/doubleconversion/vtkdoubleconversion/COPYING %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_doubleconversion_vtkdoubleconversion_COPYING
-cp ThirdParty/doubleconversion/vtkdoubleconversion/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_doubleconversion_vtkdoubleconversion_LICENSE
-cp ThirdParty/eigen/vtkeigen/COPYING.BSD %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_eigen_vtkeigen_COPYING.BSD
-cp ThirdParty/eigen/vtkeigen/COPYING.MINPACK %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_eigen_vtkeigen_COPYING.MINPACK
-cp ThirdParty/eigen/vtkeigen/COPYING.MPL2 %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_eigen_vtkeigen_COPYING.MPL2
-cp ThirdParty/eigen/vtkeigen/COPYING.README %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_eigen_vtkeigen_COPYING.README
-cp ThirdParty/exodusII/vtkexodusII/COPYRIGHT %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_exodusII_vtkexodusII_COPYRIGHT
-cp ThirdParty/expat/vtkexpat/COPYING %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_expat_vtkexpat_COPYING
-cp ThirdParty/freetype/vtkfreetype/docs/LICENSE.TXT %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_freetype_vtkfreetype_docs_LICENSE.TXT
-cp ThirdParty/gl2ps/vtkgl2ps/COPYING.GL2PS %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_gl2ps_vtkgl2ps_COPYING.GL2PS
-cp ThirdParty/gl2ps/vtkgl2ps/COPYING.LGPL %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_gl2ps_vtkgl2ps_COPYING.LGPL
-cp ThirdParty/glew/vtkglew/LICENSE.txt %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_glew_vtkglew_LICENSE.txt
-cp ThirdParty/hdf5/vtkhdf5/COPYING %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_hdf5_vtkhdf5_COPYING
-cp ThirdParty/hdf5/vtkhdf5/COPYING_LBNL_HDF5 %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_hdf5_vtkhdf5_COPYING_LBNL_HDF5
-cp ThirdParty/jpeg/vtkjpeg/LICENSE.md %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_jpeg_vtkjpeg_LICENSE.md
-cp ThirdParty/jsoncpp/vtkjsoncpp/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_jsoncpp_vtkjsoncpp_LICENSE
-cp ThirdParty/kissfft/vtkkissfft/COPYING %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_kissfft_vtkkissfft_COPYING
-cp ThirdParty/libharu/vtklibharu/LICENCE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_libharu_vtklibharu_LICENCE
-cp ThirdParty/libproj/vtklibproj/COPYING %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_libproj_vtklibproj_COPYING
-cp ThirdParty/libxml2/vtklibxml2/Copyright %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_libxml2_vtklibxml2_Copyright
-cp ThirdParty/lz4/vtklz4/lib/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_lz4_vtklz4_lib_LICENSE
-cp ThirdParty/mpi4py/vtkmpi4py/LICENSE.rst %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_mpi4py_vtkmpi4py_LICENSE.rst
-cp ThirdParty/netcdf/vtknetcdf/COPYRIGHT %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_netcdf_vtknetcdf_COPYRIGHT
-cp ThirdParty/ogg/vtkogg/COPYING %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_ogg_vtkogg_COPYING
-cp ThirdParty/pegtl/vtkpegtl/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_pegtl_vtkpegtl_LICENSE
-cp ThirdParty/png/vtkpng/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_png_vtkpng_LICENSE
-cp ThirdParty/pugixml/vtkpugixml/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_pugixml_vtkpugixml_LICENSE
-cp ThirdParty/theora/vtktheora/COPYING %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_theora_vtktheora_COPYING
-cp ThirdParty/tiff/vtktiff/COPYRIGHT %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_tiff_vtktiff_COPYRIGHT
-cp ThirdParty/utf8/vtkutf8/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_utf8_vtkutf8_LICENSE
-cp ThirdParty/vtkm/vtk-m/LICENSE.txt %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_vtkm_vtk-m_LICENSE.txt
-cp ThirdParty/vtkm/vtk-m/Utilities/Git/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_vtkm_vtk-m_Utilities_Git_LICENSE
-cp ThirdParty/vtkm/vtk-m/Utilities/GitSetup/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_vtkm_vtk-m_Utilities_GitSetup_LICENSE
-cp ThirdParty/vtkm/vtk-m/vtkm/thirdparty/diy/vtkmdiy/LICENSE.txt %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_vtkm_vtk-m_vtkm_thirdparty_diy_vtkmdiy_LICENSE.txt
-cp ThirdParty/vtkm/vtk-m/vtkm/thirdparty/taotuple/vtkmtaotuple/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_vtkm_vtk-m_vtkm_thirdparty_taotuple_vtkmtaotuple_LICENSE
-cp ThirdParty/xdmf2/vtkxdmf2/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_xdmf2_vtkxdmf2_Copyright.txt
-cp ThirdParty/xdmf3/vtkxdmf3/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_xdmf3_vtkxdmf3_Copyright.txt
-cp ThirdParty/zfp/vtkzfp/LICENSE %{buildroot}/usr/share/package-licenses/VTK/ThirdParty_zfp_vtkzfp_LICENSE
-cp Utilities/DICOMParser/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/Utilities_DICOMParser_Copyright.txt
-cp Utilities/KWIML/vtkkwiml/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/Utilities_KWIML_vtkkwiml_Copyright.txt
-cp Utilities/KWSys/vtksys/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/Utilities_KWSys_vtksys_Copyright.txt
-cp Utilities/MetaIO/vtkmetaio/License.txt %{buildroot}/usr/share/package-licenses/VTK/Utilities_MetaIO_vtkmetaio_License.txt
+cp %{_builddir}/VTK-8.2.0/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/73e1eb91dcdfcedf106ced4e67bc691614f0a3b3
+cp %{_builddir}/VTK-8.2.0/Domains/Chemistry/COPYING %{buildroot}/usr/share/package-licenses/VTK/4be8066dcfda61575b9302ae635f9ab15ec323ad
+cp %{_builddir}/VTK-8.2.0/ThirdParty/diy2/vtkdiy2/LICENSE.txt %{buildroot}/usr/share/package-licenses/VTK/d28d71e6570dd1964e2c992ed10a13ae67a2f840
+cp %{_builddir}/VTK-8.2.0/ThirdParty/doubleconversion/vtkdoubleconversion/COPYING %{buildroot}/usr/share/package-licenses/VTK/8d434c9c1704b544a8b0652efbc323380b67f9bc
+cp %{_builddir}/VTK-8.2.0/ThirdParty/doubleconversion/vtkdoubleconversion/LICENSE %{buildroot}/usr/share/package-licenses/VTK/8d434c9c1704b544a8b0652efbc323380b67f9bc
+cp %{_builddir}/VTK-8.2.0/ThirdParty/eigen/vtkeigen/COPYING.BSD %{buildroot}/usr/share/package-licenses/VTK/68e70c33d6daa083bcc855b8984d2eadcb20e0b8
+cp %{_builddir}/VTK-8.2.0/ThirdParty/eigen/vtkeigen/COPYING.MINPACK %{buildroot}/usr/share/package-licenses/VTK/df73e10dcfd2d05667e6fe85cabe5dfe3c984727
+cp %{_builddir}/VTK-8.2.0/ThirdParty/eigen/vtkeigen/COPYING.MPL2 %{buildroot}/usr/share/package-licenses/VTK/9744cedce099f727b327cd9913a1fdc58a7f5599
+cp %{_builddir}/VTK-8.2.0/ThirdParty/eigen/vtkeigen/COPYING.README %{buildroot}/usr/share/package-licenses/VTK/a7584db2e76a50884b3fe13360f2e6a354f5bedf
+cp %{_builddir}/VTK-8.2.0/ThirdParty/exodusII/vtkexodusII/COPYRIGHT %{buildroot}/usr/share/package-licenses/VTK/c8ffcaf1f4bfc32586f02805a1cf378d7d0beea5
+cp %{_builddir}/VTK-8.2.0/ThirdParty/expat/vtkexpat/COPYING %{buildroot}/usr/share/package-licenses/VTK/1830cf88edd943aadba8ca7504d45113ca3431a2
+cp %{_builddir}/VTK-8.2.0/ThirdParty/freetype/vtkfreetype/docs/LICENSE.TXT %{buildroot}/usr/share/package-licenses/VTK/52127c4986dbb3d0de625d3aca0deddeb268fa8f
+cp %{_builddir}/VTK-8.2.0/ThirdParty/gl2ps/vtkgl2ps/COPYING.GL2PS %{buildroot}/usr/share/package-licenses/VTK/faad94114418f45f4537f08f56abaaeb33f32e8e
+cp %{_builddir}/VTK-8.2.0/ThirdParty/gl2ps/vtkgl2ps/COPYING.LGPL %{buildroot}/usr/share/package-licenses/VTK/65359c69ba0a7a743bc3e01f36c04445ff1bbb3c
+cp %{_builddir}/VTK-8.2.0/ThirdParty/glew/vtkglew/LICENSE.txt %{buildroot}/usr/share/package-licenses/VTK/0ca22faedb8ee495473a82c4d91452493b22ac9f
+cp %{_builddir}/VTK-8.2.0/ThirdParty/hdf5/vtkhdf5/COPYING %{buildroot}/usr/share/package-licenses/VTK/3a68a5bea92ce83573093d47cc08914f9924161c
+cp %{_builddir}/VTK-8.2.0/ThirdParty/hdf5/vtkhdf5/COPYING_LBNL_HDF5 %{buildroot}/usr/share/package-licenses/VTK/23794875a8eb26c3462e10c18277015c7a951529
+cp %{_builddir}/VTK-8.2.0/ThirdParty/jpeg/vtkjpeg/LICENSE.md %{buildroot}/usr/share/package-licenses/VTK/7b111516fb0f6aa2063908e9098aa5727200abf3
+cp %{_builddir}/VTK-8.2.0/ThirdParty/jsoncpp/vtkjsoncpp/LICENSE %{buildroot}/usr/share/package-licenses/VTK/d9bddd7f273bd065b5fdeb67afac0b26b6541a50
+cp %{_builddir}/VTK-8.2.0/ThirdParty/kissfft/vtkkissfft/COPYING %{buildroot}/usr/share/package-licenses/VTK/a46324c99fbefcdfe04c19a35296ad219a256efb
+cp %{_builddir}/VTK-8.2.0/ThirdParty/libharu/vtklibharu/LICENCE %{buildroot}/usr/share/package-licenses/VTK/3d2b332adfbde03cbcfe3b37ecd36d26644393bb
+cp %{_builddir}/VTK-8.2.0/ThirdParty/libproj/vtklibproj/COPYING %{buildroot}/usr/share/package-licenses/VTK/ff8d569976b75bad2e71d78ad1df7a422f1165c9
+cp %{_builddir}/VTK-8.2.0/ThirdParty/libxml2/vtklibxml2/Copyright %{buildroot}/usr/share/package-licenses/VTK/23a1e6369b12379f07c61bbbaa73e13704ebc30e
+cp %{_builddir}/VTK-8.2.0/ThirdParty/lz4/vtklz4/lib/LICENSE %{buildroot}/usr/share/package-licenses/VTK/10bf56381baaf07f0647b93a810eb4e7e9545e8d
+cp %{_builddir}/VTK-8.2.0/ThirdParty/mpi4py/vtkmpi4py/LICENSE.rst %{buildroot}/usr/share/package-licenses/VTK/039786fd4f9b487d59e6458b9055888dd98ba8a9
+cp %{_builddir}/VTK-8.2.0/ThirdParty/netcdf/vtknetcdf/COPYRIGHT %{buildroot}/usr/share/package-licenses/VTK/40d457464182a97555b0946e7a957944d32a2b40
+cp %{_builddir}/VTK-8.2.0/ThirdParty/ogg/vtkogg/COPYING %{buildroot}/usr/share/package-licenses/VTK/bc252631805cf037048f64fef562f98c2a0bdc9e
+cp %{_builddir}/VTK-8.2.0/ThirdParty/pegtl/vtkpegtl/LICENSE %{buildroot}/usr/share/package-licenses/VTK/af44bd63900654358c986de113df3d988a7528b7
+cp %{_builddir}/VTK-8.2.0/ThirdParty/png/vtkpng/LICENSE %{buildroot}/usr/share/package-licenses/VTK/48f306df0e6c5362aff62fa6d706604d64d792aa
+cp %{_builddir}/VTK-8.2.0/ThirdParty/pugixml/vtkpugixml/LICENSE %{buildroot}/usr/share/package-licenses/VTK/345d541452354199f0c2292341aeb755494cc95f
+cp %{_builddir}/VTK-8.2.0/ThirdParty/theora/vtktheora/COPYING %{buildroot}/usr/share/package-licenses/VTK/5c1d4d8f603100ce87f5dab2182b9641c505bcd1
+cp %{_builddir}/VTK-8.2.0/ThirdParty/tiff/vtktiff/COPYRIGHT %{buildroot}/usr/share/package-licenses/VTK/a2f64f2a85f5fd34bda8eb713c3aad008adbb589
+cp %{_builddir}/VTK-8.2.0/ThirdParty/utf8/vtkutf8/LICENSE %{buildroot}/usr/share/package-licenses/VTK/3cba29011be2b9d59f6204d6fa0a386b1b2dbd90
+cp %{_builddir}/VTK-8.2.0/ThirdParty/vtkm/vtk-m/LICENSE.txt %{buildroot}/usr/share/package-licenses/VTK/d7c3b58352c9a4aa8f07ca61e6101bc9973057be
+cp %{_builddir}/VTK-8.2.0/ThirdParty/vtkm/vtk-m/Utilities/Git/LICENSE %{buildroot}/usr/share/package-licenses/VTK/2b8b815229aa8a61e483fb4ba0588b8b6c491890
+cp %{_builddir}/VTK-8.2.0/ThirdParty/vtkm/vtk-m/Utilities/GitSetup/LICENSE %{buildroot}/usr/share/package-licenses/VTK/2b8b815229aa8a61e483fb4ba0588b8b6c491890
+cp %{_builddir}/VTK-8.2.0/ThirdParty/vtkm/vtk-m/vtkm/thirdparty/diy/vtkmdiy/LICENSE.txt %{buildroot}/usr/share/package-licenses/VTK/d28d71e6570dd1964e2c992ed10a13ae67a2f840
+cp %{_builddir}/VTK-8.2.0/ThirdParty/vtkm/vtk-m/vtkm/thirdparty/taotuple/vtkmtaotuple/LICENSE %{buildroot}/usr/share/package-licenses/VTK/1d61d2da8691afe795cccbef073c7a10a31cde33
+cp %{_builddir}/VTK-8.2.0/ThirdParty/xdmf2/vtkxdmf2/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/0e10f8b7fa2ac9187d6b30822680ee7a16ef99c6
+cp %{_builddir}/VTK-8.2.0/ThirdParty/xdmf3/vtkxdmf3/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/56832d7f589a10fd7739cfc994d922ec3369209c
+cp %{_builddir}/VTK-8.2.0/ThirdParty/zfp/vtkzfp/LICENSE %{buildroot}/usr/share/package-licenses/VTK/9663a0ae6812e3bb3c2a33d1a67246719de32df9
+cp %{_builddir}/VTK-8.2.0/Utilities/DICOMParser/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/340df0004a991efa25eb72b677cf3c10a96c0f31
+cp %{_builddir}/VTK-8.2.0/Utilities/KWIML/vtkkwiml/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/1ea0069e1fc52e8888512574a47dc7f4d18418f5
+cp %{_builddir}/VTK-8.2.0/Utilities/KWSys/vtksys/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/5f78f21af8c8d27e0335d335a9dc9560bcc6f024
+cp %{_builddir}/VTK-8.2.0/Utilities/MetaIO/vtkmetaio/License.txt %{buildroot}/usr/share/package-licenses/VTK/b38f19da4d649e24c584a3461fc4343ee2405e66
 pushd clr-build
 %make_install
 popd
@@ -3081,48 +3080,45 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/VTK/Copyright.txt
-/usr/share/package-licenses/VTK/Domains_Chemistry_COPYING
-/usr/share/package-licenses/VTK/ThirdParty_diy2_vtkdiy2_LICENSE.txt
-/usr/share/package-licenses/VTK/ThirdParty_doubleconversion_vtkdoubleconversion_COPYING
-/usr/share/package-licenses/VTK/ThirdParty_doubleconversion_vtkdoubleconversion_LICENSE
-/usr/share/package-licenses/VTK/ThirdParty_eigen_vtkeigen_COPYING.BSD
-/usr/share/package-licenses/VTK/ThirdParty_eigen_vtkeigen_COPYING.MINPACK
-/usr/share/package-licenses/VTK/ThirdParty_eigen_vtkeigen_COPYING.MPL2
-/usr/share/package-licenses/VTK/ThirdParty_eigen_vtkeigen_COPYING.README
-/usr/share/package-licenses/VTK/ThirdParty_exodusII_vtkexodusII_COPYRIGHT
-/usr/share/package-licenses/VTK/ThirdParty_expat_vtkexpat_COPYING
-/usr/share/package-licenses/VTK/ThirdParty_freetype_vtkfreetype_docs_LICENSE.TXT
-/usr/share/package-licenses/VTK/ThirdParty_gl2ps_vtkgl2ps_COPYING.GL2PS
-/usr/share/package-licenses/VTK/ThirdParty_gl2ps_vtkgl2ps_COPYING.LGPL
-/usr/share/package-licenses/VTK/ThirdParty_glew_vtkglew_LICENSE.txt
-/usr/share/package-licenses/VTK/ThirdParty_hdf5_vtkhdf5_COPYING
-/usr/share/package-licenses/VTK/ThirdParty_hdf5_vtkhdf5_COPYING_LBNL_HDF5
-/usr/share/package-licenses/VTK/ThirdParty_jpeg_vtkjpeg_LICENSE.md
-/usr/share/package-licenses/VTK/ThirdParty_jsoncpp_vtkjsoncpp_LICENSE
-/usr/share/package-licenses/VTK/ThirdParty_kissfft_vtkkissfft_COPYING
-/usr/share/package-licenses/VTK/ThirdParty_libharu_vtklibharu_LICENCE
-/usr/share/package-licenses/VTK/ThirdParty_libproj_vtklibproj_COPYING
-/usr/share/package-licenses/VTK/ThirdParty_libxml2_vtklibxml2_Copyright
-/usr/share/package-licenses/VTK/ThirdParty_lz4_vtklz4_lib_LICENSE
-/usr/share/package-licenses/VTK/ThirdParty_mpi4py_vtkmpi4py_LICENSE.rst
-/usr/share/package-licenses/VTK/ThirdParty_netcdf_vtknetcdf_COPYRIGHT
-/usr/share/package-licenses/VTK/ThirdParty_ogg_vtkogg_COPYING
-/usr/share/package-licenses/VTK/ThirdParty_pegtl_vtkpegtl_LICENSE
-/usr/share/package-licenses/VTK/ThirdParty_png_vtkpng_LICENSE
-/usr/share/package-licenses/VTK/ThirdParty_pugixml_vtkpugixml_LICENSE
-/usr/share/package-licenses/VTK/ThirdParty_theora_vtktheora_COPYING
-/usr/share/package-licenses/VTK/ThirdParty_tiff_vtktiff_COPYRIGHT
-/usr/share/package-licenses/VTK/ThirdParty_utf8_vtkutf8_LICENSE
-/usr/share/package-licenses/VTK/ThirdParty_vtkm_vtk-m_LICENSE.txt
-/usr/share/package-licenses/VTK/ThirdParty_vtkm_vtk-m_Utilities_GitSetup_LICENSE
-/usr/share/package-licenses/VTK/ThirdParty_vtkm_vtk-m_Utilities_Git_LICENSE
-/usr/share/package-licenses/VTK/ThirdParty_vtkm_vtk-m_vtkm_thirdparty_diy_vtkmdiy_LICENSE.txt
-/usr/share/package-licenses/VTK/ThirdParty_vtkm_vtk-m_vtkm_thirdparty_taotuple_vtkmtaotuple_LICENSE
-/usr/share/package-licenses/VTK/ThirdParty_xdmf2_vtkxdmf2_Copyright.txt
-/usr/share/package-licenses/VTK/ThirdParty_xdmf3_vtkxdmf3_Copyright.txt
-/usr/share/package-licenses/VTK/ThirdParty_zfp_vtkzfp_LICENSE
-/usr/share/package-licenses/VTK/Utilities_DICOMParser_Copyright.txt
-/usr/share/package-licenses/VTK/Utilities_KWIML_vtkkwiml_Copyright.txt
-/usr/share/package-licenses/VTK/Utilities_KWSys_vtksys_Copyright.txt
-/usr/share/package-licenses/VTK/Utilities_MetaIO_vtkmetaio_License.txt
+/usr/share/package-licenses/VTK/039786fd4f9b487d59e6458b9055888dd98ba8a9
+/usr/share/package-licenses/VTK/0ca22faedb8ee495473a82c4d91452493b22ac9f
+/usr/share/package-licenses/VTK/0e10f8b7fa2ac9187d6b30822680ee7a16ef99c6
+/usr/share/package-licenses/VTK/10bf56381baaf07f0647b93a810eb4e7e9545e8d
+/usr/share/package-licenses/VTK/1830cf88edd943aadba8ca7504d45113ca3431a2
+/usr/share/package-licenses/VTK/1d61d2da8691afe795cccbef073c7a10a31cde33
+/usr/share/package-licenses/VTK/1ea0069e1fc52e8888512574a47dc7f4d18418f5
+/usr/share/package-licenses/VTK/23794875a8eb26c3462e10c18277015c7a951529
+/usr/share/package-licenses/VTK/23a1e6369b12379f07c61bbbaa73e13704ebc30e
+/usr/share/package-licenses/VTK/2b8b815229aa8a61e483fb4ba0588b8b6c491890
+/usr/share/package-licenses/VTK/340df0004a991efa25eb72b677cf3c10a96c0f31
+/usr/share/package-licenses/VTK/345d541452354199f0c2292341aeb755494cc95f
+/usr/share/package-licenses/VTK/3a68a5bea92ce83573093d47cc08914f9924161c
+/usr/share/package-licenses/VTK/3cba29011be2b9d59f6204d6fa0a386b1b2dbd90
+/usr/share/package-licenses/VTK/3d2b332adfbde03cbcfe3b37ecd36d26644393bb
+/usr/share/package-licenses/VTK/40d457464182a97555b0946e7a957944d32a2b40
+/usr/share/package-licenses/VTK/48f306df0e6c5362aff62fa6d706604d64d792aa
+/usr/share/package-licenses/VTK/4be8066dcfda61575b9302ae635f9ab15ec323ad
+/usr/share/package-licenses/VTK/52127c4986dbb3d0de625d3aca0deddeb268fa8f
+/usr/share/package-licenses/VTK/56832d7f589a10fd7739cfc994d922ec3369209c
+/usr/share/package-licenses/VTK/5c1d4d8f603100ce87f5dab2182b9641c505bcd1
+/usr/share/package-licenses/VTK/5f78f21af8c8d27e0335d335a9dc9560bcc6f024
+/usr/share/package-licenses/VTK/65359c69ba0a7a743bc3e01f36c04445ff1bbb3c
+/usr/share/package-licenses/VTK/68e70c33d6daa083bcc855b8984d2eadcb20e0b8
+/usr/share/package-licenses/VTK/73e1eb91dcdfcedf106ced4e67bc691614f0a3b3
+/usr/share/package-licenses/VTK/7b111516fb0f6aa2063908e9098aa5727200abf3
+/usr/share/package-licenses/VTK/8d434c9c1704b544a8b0652efbc323380b67f9bc
+/usr/share/package-licenses/VTK/9663a0ae6812e3bb3c2a33d1a67246719de32df9
+/usr/share/package-licenses/VTK/9744cedce099f727b327cd9913a1fdc58a7f5599
+/usr/share/package-licenses/VTK/a2f64f2a85f5fd34bda8eb713c3aad008adbb589
+/usr/share/package-licenses/VTK/a46324c99fbefcdfe04c19a35296ad219a256efb
+/usr/share/package-licenses/VTK/a7584db2e76a50884b3fe13360f2e6a354f5bedf
+/usr/share/package-licenses/VTK/af44bd63900654358c986de113df3d988a7528b7
+/usr/share/package-licenses/VTK/b38f19da4d649e24c584a3461fc4343ee2405e66
+/usr/share/package-licenses/VTK/bc252631805cf037048f64fef562f98c2a0bdc9e
+/usr/share/package-licenses/VTK/c8ffcaf1f4bfc32586f02805a1cf378d7d0beea5
+/usr/share/package-licenses/VTK/d28d71e6570dd1964e2c992ed10a13ae67a2f840
+/usr/share/package-licenses/VTK/d7c3b58352c9a4aa8f07ca61e6101bc9973057be
+/usr/share/package-licenses/VTK/d9bddd7f273bd065b5fdeb67afac0b26b6541a50
+/usr/share/package-licenses/VTK/df73e10dcfd2d05667e6fe85cabe5dfe3c984727
+/usr/share/package-licenses/VTK/faad94114418f45f4537f08f56abaaeb33f32e8e
+/usr/share/package-licenses/VTK/ff8d569976b75bad2e71d78ad1df7a422f1165c9
