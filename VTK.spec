@@ -4,7 +4,7 @@
 #
 Name     : VTK
 Version  : 8.2.0
-Release  : 12
+Release  : 13
 URL      : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Source0  : https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 Summary  : No detailed summary available
@@ -100,13 +100,14 @@ license components for the VTK package.
 
 %prep
 %setup -q -n VTK-8.2.0
+cd %{_builddir}/VTK-8.2.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1571692419
+export SOURCE_DATE_EPOCH=1577463438
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -114,12 +115,16 @@ export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
 export FFLAGS="$CFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
-%cmake .. -DVTK_USE_SYSTEM_LIBRARIES=ON -DVTK_USE_SYSTEM_GL2PS:BOOL=OFF -DVTK_USE_SYSTEM_LIBHARU:BOOL=OFF -DVTK_USE_SYSTEM_LIBPROJ:BOOL=OFF
+%cmake .. -DCMAKE_INSTALL_LIBDIR=lib64 \
+-DVTK_USE_SYSTEM_LIBRARIES=ON \
+-DVTK_USE_SYSTEM_GL2PS:BOOL=OFF \
+-DVTK_USE_SYSTEM_LIBHARU:BOOL=OFF \
+-DVTK_USE_SYSTEM_LIBPROJ:BOOL=OFF
 make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1571692419
+export SOURCE_DATE_EPOCH=1577463438
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/VTK
 cp %{_builddir}/VTK-8.2.0/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/73e1eb91dcdfcedf106ced4e67bc691614f0a3b3
