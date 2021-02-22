@@ -3,6 +3,7 @@
 double-conversion-dev
 eigen-dev
 freetype-dev
+gnuplot
 hdf5-dev
 jsoncpp-dev
 libogg-dev

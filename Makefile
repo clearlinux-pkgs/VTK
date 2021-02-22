@@ -1,5 +1,5 @@
 PKG_NAME := VTK
-URL = https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
+URL = https://www.vtk.org/files/release/9.0/VTK-9.0.1.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common

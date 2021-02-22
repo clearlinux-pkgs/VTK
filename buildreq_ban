@@ -1,4 +1,6 @@
 # This file contains build requirements that get picked up but are
 # undesirable. One entry per line, no whitespace.
+VTK-dev
+gnuplot-dev
 openjdk11
 openjdk11-dev
