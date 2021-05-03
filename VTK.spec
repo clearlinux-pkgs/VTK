@@ -4,7 +4,7 @@
 #
 Name     : VTK
 Version  : 9.0.1
-Release  : 21
+Release  : 22
 URL      : https://www.vtk.org/files/release/9.0/VTK-9.0.1.tar.gz
 Source0  : https://www.vtk.org/files/release/9.0/VTK-9.0.1.tar.gz
 Summary  : Visualization Toolkit
@@ -61,6 +61,8 @@ BuildRequires : tiff-dev
 BuildRequires : wget
 BuildRequires : xz-dev
 BuildRequires : zlib-dev
+Patch1: 0001-vtkDataArrayPrivate-include-limits-for-std-numeric_l.patch
+Patch2: 0002-Add-more-missing-includes.patch
 
 %description
 The Visualization Toolkit (VTK) is an open-source, freely available software
@@ -122,13 +124,15 @@ license components for the VTK package.
 %prep
 %setup -q -n VTK-9.0.1
 cd %{_builddir}/VTK-9.0.1
+%patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1613982669
+export SOURCE_DATE_EPOCH=1620070438
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -141,7 +145,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1613982669
+export SOURCE_DATE_EPOCH=1620070438
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/VTK
 cp %{_builddir}/VTK-9.0.1/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/73e1eb91dcdfcedf106ced4e67bc691614f0a3b3
