@@ -4,7 +4,7 @@
 #
 Name     : VTK
 Version  : 9.0.2
-Release  : 23
+Release  : 24
 URL      : https://www.vtk.org/files/release/9.0/VTK-9.0.2.tar.gz
 Source0  : https://www.vtk.org/files/release/9.0/VTK-9.0.2.tar.gz
 Summary  : Visualization Toolkit
@@ -12,6 +12,7 @@ Group    : Development/Tools
 License  : Apache-2.0 BSD-2-Clause BSD-3-Clause BSD-3-Clause-Attribution BSD-3-Clause-LBNL BSL-1.0 FTL GL2PS GPL-2.0 IJG Libpng MIT MPL-2.0 MPL-2.0-no-copyleft-exception NCSA Zlib libtiff
 Requires: VTK-bin = %{version}-%{release}
 Requires: VTK-data = %{version}-%{release}
+Requires: VTK-filemap = %{version}-%{release}
 Requires: VTK-lib = %{version}-%{release}
 Requires: VTK-license = %{version}-%{release}
 BuildRequires : bash coreutils gzip
@@ -77,6 +78,7 @@ Summary: bin components for the VTK package.
 Group: Binaries
 Requires: VTK-data = %{version}-%{release}
 Requires: VTK-license = %{version}-%{release}
+Requires: VTK-filemap = %{version}-%{release}
 
 %description bin
 bin components for the VTK package.
@@ -103,11 +105,20 @@ Requires: VTK = %{version}-%{release}
 dev components for the VTK package.
 
 
+%package filemap
+Summary: filemap components for the VTK package.
+Group: Default
+
+%description filemap
+filemap components for the VTK package.
+
+
 %package lib
 Summary: lib components for the VTK package.
 Group: Libraries
 Requires: VTK-data = %{version}-%{release}
 Requires: VTK-license = %{version}-%{release}
+Requires: VTK-filemap = %{version}-%{release}
 
 %description lib
 lib components for the VTK package.
@@ -132,7 +143,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1625098934
+export SOURCE_DATE_EPOCH=1634227605
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -143,9 +154,23 @@ export CXXFLAGS="$CXXFLAGS -fno-lto "
 %cmake .. -DCMAKE_INSTALL_LIBDIR=lib64
 make  %{?_smp_mflags}
 popd
+mkdir -p clr-build-avx2
+pushd clr-build-avx2
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -O3 -fno-lto -march=x86-64-v3 -mtune=skylake "
+export FCFLAGS="$FFLAGS -O3 -fno-lto -march=x86-64-v3 -mtune=skylake "
+export FFLAGS="$FFLAGS -O3 -fno-lto -march=x86-64-v3 -mtune=skylake "
+export CXXFLAGS="$CXXFLAGS -O3 -fno-lto -march=x86-64-v3 -mtune=skylake "
+export CFLAGS="$CFLAGS -march=x86-64-v3 -m64"
+export CXXFLAGS="$CXXFLAGS -march=x86-64-v3 -m64"
+export FFLAGS="$FFLAGS -march=x86-64-v3 -m64"
+export FCFLAGS="$FCFLAGS -march=x86-64-v3 -m64"
+%cmake .. -DCMAKE_INSTALL_LIBDIR=lib64
+make  %{?_smp_mflags}
+popd
 
 %install
-export SOURCE_DATE_EPOCH=1625098934
+export SOURCE_DATE_EPOCH=1634227605
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/VTK
 cp %{_builddir}/VTK-9.0.2/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/73e1eb91dcdfcedf106ced4e67bc691614f0a3b3
@@ -198,9 +223,13 @@ cp %{_builddir}/VTK-9.0.2/Utilities/DICOMParser/Copyright.txt %{buildroot}/usr/s
 cp %{_builddir}/VTK-9.0.2/Utilities/KWIML/vtkkwiml/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/c18d58e8f2d8b07033608fc1aa496350dc7404a6
 cp %{_builddir}/VTK-9.0.2/Utilities/KWSys/vtksys/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/5f78f21af8c8d27e0335d335a9dc9560bcc6f024
 cp %{_builddir}/VTK-9.0.2/Utilities/MetaIO/vtkmetaio/License.txt %{buildroot}/usr/share/package-licenses/VTK/b38f19da4d649e24c584a3461fc4343ee2405e66
+pushd clr-build-avx2
+%make_install_v3  || :
+popd
 pushd clr-build
 %make_install
 popd
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -313,6 +342,7 @@ popd
 /usr/bin/vtkWrapJava-9.0
 /usr/bin/vtkWrapPython-9.0
 /usr/bin/vtkWrapPythonInit-9.0
+/usr/share/clear/optimized-elf/bin*
 
 %files data
 %defattr(-,root,root,-)
@@ -3861,6 +3891,10 @@ popd
 /usr/lib64/libvtkverdict-9.0.so
 /usr/lib64/libvtkzlib-9.0.so
 
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-VTK
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libvtkChartsCore-9.0.so.1
@@ -4123,6 +4157,7 @@ popd
 /usr/lib64/libvtkverdict-9.0.so.9.0.2
 /usr/lib64/libvtkzlib-9.0.so.1
 /usr/lib64/libvtkzlib-9.0.so.9.0.2
+/usr/share/clear/optimized-elf/lib*
 
 %files license
 %defattr(0644,root,root,0755)
