@@ -4,7 +4,7 @@
 #
 Name     : VTK
 Version  : 9.0.2
-Release  : 24
+Release  : 25
 URL      : https://www.vtk.org/files/release/9.0/VTK-9.0.2.tar.gz
 Source0  : https://www.vtk.org/files/release/9.0/VTK-9.0.2.tar.gz
 Summary  : Visualization Toolkit
@@ -42,6 +42,8 @@ BuildRequires : libxml2-dev
 BuildRequires : lz4-dev
 BuildRequires : mesa-dev
 BuildRequires : netcdf-dev
+BuildRequires : openjdk
+BuildRequires : openjdk-dev
 BuildRequires : openmpi-dev
 BuildRequires : openssl-dev
 BuildRequires : perl
@@ -143,7 +145,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1634227605
+export SOURCE_DATE_EPOCH=1656611278
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -157,20 +159,20 @@ popd
 mkdir -p clr-build-avx2
 pushd clr-build-avx2
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -fno-lto -march=x86-64-v3 -mtune=skylake "
-export FCFLAGS="$FFLAGS -O3 -fno-lto -march=x86-64-v3 -mtune=skylake "
-export FFLAGS="$FFLAGS -O3 -fno-lto -march=x86-64-v3 -mtune=skylake "
-export CXXFLAGS="$CXXFLAGS -O3 -fno-lto -march=x86-64-v3 -mtune=skylake "
-export CFLAGS="$CFLAGS -march=x86-64-v3 -m64"
-export CXXFLAGS="$CXXFLAGS -march=x86-64-v3 -m64"
-export FFLAGS="$FFLAGS -march=x86-64-v3 -m64"
-export FCFLAGS="$FCFLAGS -march=x86-64-v3 -m64"
+export CFLAGS="$CFLAGS -O3 -Wl,-z,x86-64-v3 -fno-lto -march=x86-64-v3 -msse2avx -mtune=skylake "
+export FCFLAGS="$FFLAGS -O3 -Wl,-z,x86-64-v3 -fno-lto -march=x86-64-v3 -msse2avx -mtune=skylake "
+export FFLAGS="$FFLAGS -O3 -Wl,-z,x86-64-v3 -fno-lto -march=x86-64-v3 -msse2avx -mtune=skylake "
+export CXXFLAGS="$CXXFLAGS -O3 -Wl,-z,x86-64-v3 -fno-lto -march=x86-64-v3 -msse2avx -mtune=skylake "
+export CFLAGS="$CFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
 %cmake .. -DCMAKE_INSTALL_LIBDIR=lib64
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1634227605
+export SOURCE_DATE_EPOCH=1656611278
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/VTK
 cp %{_builddir}/VTK-9.0.2/Copyright.txt %{buildroot}/usr/share/package-licenses/VTK/73e1eb91dcdfcedf106ced4e67bc691614f0a3b3
@@ -229,7 +231,7 @@ popd
 pushd clr-build
 %make_install
 popd
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -3760,6 +3762,136 @@ popd
 /usr/lib64/cmake/vtk-9.0/vtkTestingDriver.cmake
 /usr/lib64/cmake/vtk-9.0/vtkTestingRenderingDriver.cmake
 /usr/lib64/cmake/vtk-9.0/vtkTopologicalSort.cmake
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkChartsCore-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonColor-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonComputationalGeometry-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonCore-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonDataModel-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonExecutionModel-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonMath-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonMisc-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonSystem-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonTransforms-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkDICOMParser-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkDomainsChemistry-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkDomainsChemistryOpenGL2-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersAMR-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersCore-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersExtraction-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersFlowPaths-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersGeneral-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersGeneric-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersGeometry-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersHybrid-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersHyperTree-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersImaging-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersModeling-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersParallel-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersParallelImaging-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersPoints-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersProgrammable-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersSMP-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersSelection-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersSources-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersStatistics-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersTexture-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersTopology-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersVerdict-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkGeovisCore-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOAMR-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOAsynchronous-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOCityGML-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOCore-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOEnSight-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExodus-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExport-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExportGL2PS-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExportPDF-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOGeometry-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOImage-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOImport-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOInfovis-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOLSDyna-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOLegacy-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOMINC-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOMotionFX-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOMovie-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIONetCDF-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOOggTheora-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOPLY-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOParallel-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOParallelXML-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOSQL-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOSegY-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOTecplotTable-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOVeraOut-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOVideo-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOXML-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOXMLParser-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingColor-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingCore-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingFourier-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingGeneral-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingHybrid-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingMath-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingMorphological-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingSources-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingStatistics-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingStencil-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInfovisCore-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInfovisLayout-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInteractionImage-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInteractionStyle-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInteractionWidgets-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkParallelCore-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkParallelDIY-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingAnnotation-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingContext2D-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingContextOpenGL2-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingCore-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingFreeType-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingGL2PSOpenGL2-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingImage-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingLOD-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingLabel-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingOpenGL2-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingSceneGraph-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingUI-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingVolume-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingVolumeOpenGL2-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingVtkJS-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkTestingRendering-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkViewsContext2D-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkViewsCore-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkViewsInfovis-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkWrappingTools-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkdoubleconversion-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkexodusII-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkexpat-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkfreetype-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkgl2ps-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkglew-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkhdf5-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkhdf5_hl-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkjpeg-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkjsoncpp-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklibharu-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklibproj-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklibxml2-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkloguru-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklz4-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklzma-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkmetaio-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtknetcdf-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkogg-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkpng-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkpugixml-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtksqlite-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtksys-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtktheora-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtktiff-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkverdict-9.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkzlib-9.0.so
 /usr/lib64/libvtkChartsCore-9.0.so
 /usr/lib64/libvtkCommonColor-9.0.so
 /usr/lib64/libvtkCommonComputationalGeometry-9.0.so
@@ -3897,6 +4029,266 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkChartsCore-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkChartsCore-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonColor-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonColor-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonComputationalGeometry-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonComputationalGeometry-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonCore-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonCore-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonDataModel-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonDataModel-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonExecutionModel-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonExecutionModel-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonMath-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonMath-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonMisc-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonMisc-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonSystem-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonSystem-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonTransforms-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkCommonTransforms-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkDICOMParser-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkDICOMParser-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkDomainsChemistry-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkDomainsChemistry-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkDomainsChemistryOpenGL2-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkDomainsChemistryOpenGL2-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersAMR-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersAMR-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersCore-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersCore-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersExtraction-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersExtraction-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersFlowPaths-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersFlowPaths-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersGeneral-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersGeneral-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersGeneric-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersGeneric-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersGeometry-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersGeometry-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersHybrid-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersHybrid-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersHyperTree-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersHyperTree-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersImaging-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersImaging-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersModeling-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersModeling-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersParallel-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersParallel-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersParallelImaging-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersParallelImaging-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersPoints-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersPoints-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersProgrammable-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersProgrammable-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersSMP-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersSMP-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersSelection-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersSelection-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersSources-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersSources-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersStatistics-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersStatistics-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersTexture-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersTexture-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersTopology-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersTopology-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersVerdict-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkFiltersVerdict-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkGeovisCore-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkGeovisCore-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOAMR-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOAMR-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOAsynchronous-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOAsynchronous-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOCityGML-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOCityGML-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOCore-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOCore-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOEnSight-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOEnSight-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExodus-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExodus-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExport-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExport-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExportGL2PS-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExportGL2PS-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExportPDF-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOExportPDF-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOGeometry-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOGeometry-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOImage-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOImage-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOImport-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOImport-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOInfovis-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOInfovis-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOLSDyna-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOLSDyna-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOLegacy-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOLegacy-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOMINC-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOMINC-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOMotionFX-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOMotionFX-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOMovie-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOMovie-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIONetCDF-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIONetCDF-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOOggTheora-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOOggTheora-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOPLY-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOPLY-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOParallel-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOParallel-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOParallelXML-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOParallelXML-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOSQL-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOSQL-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOSegY-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOSegY-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOTecplotTable-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOTecplotTable-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOVeraOut-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOVeraOut-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOVideo-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOVideo-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOXML-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOXML-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOXMLParser-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkIOXMLParser-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingColor-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingColor-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingCore-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingCore-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingFourier-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingFourier-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingGeneral-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingGeneral-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingHybrid-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingHybrid-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingMath-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingMath-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingMorphological-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingMorphological-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingSources-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingSources-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingStatistics-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingStatistics-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingStencil-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkImagingStencil-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInfovisCore-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInfovisCore-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInfovisLayout-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInfovisLayout-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInteractionImage-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInteractionImage-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInteractionStyle-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInteractionStyle-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInteractionWidgets-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkInteractionWidgets-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkParallelCore-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkParallelCore-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkParallelDIY-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkParallelDIY-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingAnnotation-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingAnnotation-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingContext2D-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingContext2D-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingContextOpenGL2-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingContextOpenGL2-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingCore-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingCore-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingFreeType-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingFreeType-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingGL2PSOpenGL2-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingGL2PSOpenGL2-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingImage-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingImage-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingLOD-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingLOD-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingLabel-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingLabel-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingOpenGL2-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingOpenGL2-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingSceneGraph-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingSceneGraph-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingUI-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingUI-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingVolume-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingVolume-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingVolumeOpenGL2-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingVolumeOpenGL2-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingVtkJS-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkRenderingVtkJS-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkTestingRendering-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkTestingRendering-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkViewsContext2D-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkViewsContext2D-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkViewsCore-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkViewsCore-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkViewsInfovis-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkViewsInfovis-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkWrappingTools-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkWrappingTools-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkdoubleconversion-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkdoubleconversion-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkexodusII-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkexodusII-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkexpat-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkexpat-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkfreetype-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkfreetype-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkgl2ps-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkgl2ps-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkglew-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkglew-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkhdf5-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkhdf5-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkhdf5_hl-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkhdf5_hl-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkjpeg-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkjpeg-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkjsoncpp-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkjsoncpp-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklibharu-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklibharu-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklibproj-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklibproj-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklibxml2-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklibxml2-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkloguru-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkloguru-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklz4-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklz4-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklzma-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtklzma-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkmetaio-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkmetaio-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtknetcdf-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtknetcdf-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkogg-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkogg-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkpng-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkpng-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkpugixml-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkpugixml-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtksqlite-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtksqlite-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtksys-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtksys-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtktheora-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtktheora-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtktiff-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtktiff-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkverdict-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkverdict-9.0.so.9.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkzlib-9.0.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libvtkzlib-9.0.so.9.0.2
 /usr/lib64/libvtkChartsCore-9.0.so.1
 /usr/lib64/libvtkChartsCore-9.0.so.9.0.2
 /usr/lib64/libvtkCommonColor-9.0.so.1
@@ -4157,7 +4549,6 @@ popd
 /usr/lib64/libvtkverdict-9.0.so.9.0.2
 /usr/lib64/libvtkzlib-9.0.so.1
 /usr/lib64/libvtkzlib-9.0.so.9.0.2
-/usr/share/clear/optimized-elf/lib*
 
 %files license
 %defattr(0644,root,root,0755)
