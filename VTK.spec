@@ -7,7 +7,7 @@
 #
 Name     : VTK
 Version  : 9.3.1
-Release  : 30
+Release  : 31
 URL      : https://www.vtk.org/files/release/9.3/VTK-9.3.1.tar.gz
 Source0  : https://www.vtk.org/files/release/9.3/VTK-9.3.1.tar.gz
 Summary  : Visualization Toolkit
